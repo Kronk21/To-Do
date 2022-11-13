@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap"
+            rel="stylesheet"
+        />
+        <script
+            src="https://kit.fontawesome.com/a906dbdcb6.js"
+            crossorigin="anonymous"
+        ></script>
+
+        <link rel="stylesheet" href="src/css/estilos.css" />
+
+        <title>To-Do List</title>
+    </head>
+    <body>
+        <nav class="contenedor navbar">
+            <h1 class="txt--bg">Kronk</h1>
+            <form class="search-bar">
+                <input type="text" placeholder="Buscar..." />
+                <button class="btn-buscar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <button class="btn-crear">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </nav>
+
+        <main class="contenedor">
+            <div class="menu">
+                <ul class="opciones">
+                    <li class="opcion txt--md">Todos</li>
+                    <li class="opcion txt--md">Hoy</li>
+                    <li class="opcion txt--md">Esta semana</li>
+                    <li class="opcion txt--md selected">Importantes</li>
+                    <li class="opcion txt--md">Pasados</li>
+                    <li class="opcion txt--md">Busqueda</li>
+                </ul>
+            </div>
+
+            <div class="lista">
+                <h2 class="txt--bg">Importantes</h2>
+
+                <ul class="pendientes">
+                    <li class="pendiente">
+                        <p class="pendiente__nombre">
+                            Presentacion del proyecto
+                            <span class="pendiente__fecha"
+                                >- 22 de noviembre</span
+                            >
+                        </p>
+
+                        <div class="acciones">
+                            <button class="favorito">
+                                <!-- <i class="fa-solid fa-star"></i> -->
+                                <i class="fa-regular fa-star"></i>
+                            </button>
+                            <button class="editar">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button class="eliminar">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </body>
+</html>
