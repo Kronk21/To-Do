@@ -70,9 +70,36 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
-                    </li>
+                    </li>                    
                 </ul>
             </div>
         </main>
+
+        <div class="overlay hidden"></div>
+
+        <div class="modal hidden">
+            <div class="flex">
+                <h2 class="txt--bg">Nuevo pendiente</h2>
+                <button class="modal__btn--cerrar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form action="" class="formulario-nuevo">
+                <div class="formulario-nuevo__campo">
+                    <label for="titulo">Nombre:</label>
+                    <input type="text" name="titulo" placeholder="Escribe el nombre">
+                </div>
+
+                <div class="formulario-nuevo__campo">
+                    <label for="titulo">Fecha:</label>
+                    <div class="formulario-nuevo__fechas">
+                        <input type="text" name="dia" placeholder="Dia">
+                        <input type="text" name="mes" placeholder="Mes">
+                        <input type="text" name="anio" placeholder="Año">
+                    </div>
+                </div>
+
+                <button type="submit" class="modal__btn--enviar">Aceptar</button>
+            </form>
+        </div>
     </body>
 </html>

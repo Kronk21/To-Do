@@ -18,6 +18,8 @@ body {
     color: var(--clr-black);
 
     padding: 0 2rem;
+
+    position: relative;
 }
 
 html {
@@ -224,4 +226,102 @@ h2 {
 
 .acciones i:hover {
     color: var(--clr-black);
+}
+
+.overlay {
+    width: 100%;
+    height: 100vh;
+    background: rgba(17, 18, 22, 0.41);
+    backdrop-filter: blur(3px);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    z-index: 1;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    max-width: 76.4rem;
+    /* height: 53.8rem; */
+    background-color: var(--clr-light);
+    border-radius: 20px;
+
+    z-index: 10;
+
+    padding: 4.5rem 10rem;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex .txt--bg {
+    padding: 0;
+}
+
+.flex i {
+    font-size: 3rem;
+}
+
+.formulario-nuevo {
+    margin-top: 4.4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4.2rem;
+}
+
+.formulario-nuevo__campo label {
+    font-size: 2rem;
+}
+
+.formulario-nuevo__campo input {
+    padding: 1.4rem 2.2rem;
+    border-bottom: 1px solid var(--clr-black);
+
+    font-size: 1.6rem;
+}
+
+.formulario-nuevo__fechas {
+    display: flex;
+    gap: 3rem;
+}
+
+.formulario-nuevo__fechas input {
+    width: 7rem;
+    padding: 1.4rem 1.8rem;
+}
+
+.modal__btn--enviar {
+    font-size: 2.2rem;
+    
+    color: var(--clr-light);
+    background-color: var(--clr-primario);
+
+    margin-top: 3.2rem;
+    padding: 1rem 6.2rem;
+    border-radius: 10px;
+
+    transition: background-color 0.2s ease-out;
+
+    align-self: flex-end;
+}
+
+.modal__btn--enviar:hover {
+    background-color: var(--clr-black);
+}
+
+.hidden {
+    display: none;
 }
