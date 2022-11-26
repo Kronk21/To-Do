@@ -25,8 +25,12 @@
     <body>
         <nav class="contenedor navbar">
             <h1 class="txt--bg">Kronk</h1>
-            <form class="search-bar">
-                <input type="text" placeholder="Buscar..." />
+            <form class="search-bar form-busqueda">
+                <input
+                    class="barra-busqueda"
+                    type="text"
+                    placeholder="Buscar..."
+                />
                 <button class="btn-buscar">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -52,7 +56,10 @@
                     <li class="opcion txt--md" data-opcion="pasados">
                         Pasados
                     </li>
-                    <li class="opcion txt--md" data-opcion="busqueda">
+                    <li
+                        class="opcion txt--md opcion--busqueda"
+                        data-opcion="busqueda"
+                    >
                         Busqueda
                     </li>
                 </ul>

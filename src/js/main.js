@@ -54,6 +54,10 @@ class View {
         opcion.classList.add("selected");
     }
 
+    vaciarTareas() {
+        this.tareasContenedor.innerHTML = "";
+    }
+
     _formatFecha(fechaAFormatear) {
         const meses = [
             "enero",
@@ -89,10 +93,11 @@ const obtenerUsuario = async function () {
     idUsuario = datos.id;
 };
 
-const obtenerTareas = async function (filtro = "todos") {
+const obtenerTareas = async function (filtro = "todos", busqueda = false) {
     const data = new FormData();
     data.append("id", idUsuario);
     data.append("filtro", filtro);
+    if (busqueda) data.append("busqueda", busqueda);
 
     const respuesta = await fetch("php/get_tareas.php", {
         method: "POST",
@@ -107,6 +112,7 @@ const obtenerTareas = async function (filtro = "todos") {
 ///////////////////////////////////////
 ////        Controlador
 const menuOpciones = document.querySelector(".opciones");
+const barraBusqueda = document.querySelector(".barra-busqueda");
 
 window.addEventListener("load", async function (e) {
     await obtenerUsuario();
@@ -129,6 +135,26 @@ menuOpciones.addEventListener("click", async function (e) {
         opcionData.slice(0, 1).toUpperCase() + opcionData.slice(1)
     );
 
+    if (opcionData == "busqueda") {
+        vista.vaciarTareas();
+        barraBusqueda.focus();
+
+        const tareas = await obtenerTareas(opcionData, barraBusqueda.value);
+        vista.renderTareas(tareas);
+
+        return 0;
+    }
+
     const tareas = await obtenerTareas(opcionData);
+    vista.renderTareas(tareas);
+});
+
+barraBusqueda.addEventListener("input", async function (e) {
+    if (barraBusqueda.value == "") return 0;
+
+    vista.seleccionarOpcion(document.querySelector(".opcion--busqueda"));
+    vista.renderTitulo("Busqueda");
+
+    const tareas = await obtenerTareas("busqueda", barraBusqueda.value);
     vista.renderTareas(tareas);
 });

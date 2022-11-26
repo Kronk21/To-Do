@@ -6,6 +6,7 @@
 
     $idUsuario = $_POST["id"];
     $filtro = $_POST["filtro"];
+    $busqueda = isset($_POST["busqueda"]) ? "%" . $_POST["busqueda"] . "%" : "";
     
     $conexion = conectar();
 
@@ -17,7 +18,7 @@
                     ON tareas_usuarios.id_tarea = tareas.id
                 JOIN usuarios
                     ON tareas_usuarios.id_usuario = usuarios.id
-                WHERE tareas_usuarios.id_usuario = ?
+                WHERE tareas_usuarios.id_usuario = ? 
                 ORDER BY fecha";
 
             $statement = $conexion->prepare($query);
@@ -86,21 +87,23 @@
             $statement = $conexion->prepare($query);
             $statement->execute([$idUsuario]);
             break;
-    }
-    
-        // "SELECT * FROM tareas_usuarios
-        //     JOIN tareas 
-        //         ON tareas_usuarios.id_tarea = tareas.id
-        //     JOIN usuarios
-        //         ON tareas_usuarios.id_usuario = usuarios.id
-        //     WHERE tareas_usuarios.id_usuario = ?";
-        // if($status != "pendiente") {
-        //     $query .= " AND status = '$status'";
-        // }
-        // $query .= " ORDER BY fecha";
 
-        // $statement = $conexion->prepare($query);
-        // $statement->execute([$idUsuario]);
+        case "busqueda":          
+            $query = 
+                "SELECT * FROM tareas_usuarios
+                JOIN tareas 
+                    ON tareas_usuarios.id_tarea = tareas.id
+                JOIN usuarios
+                    ON tareas_usuarios.id_usuario = usuarios.id
+                WHERE 
+                    tareas_usuarios.id_usuario = ? AND 
+                    texto LIKE ?  
+                ORDER BY fecha";
+
+            $statement = $conexion->prepare($query);
+            $statement->execute([$idUsuario, $busqueda]);
+            break;
+    }
 
     $resultado = $statement->get_result();
     while($fila = $resultado->fetch_assoc()) {
