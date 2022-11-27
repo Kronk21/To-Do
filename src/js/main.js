@@ -135,6 +135,20 @@ const editarTarea = async function (tareaId, accion) {
     return respuesta;
 };
 
+const eliminarTarea = async function (tareaId) {
+    const data = new FormData();
+    data.append("id", tareaId);
+
+    const eliminar = await fetch("php/eliminar_tarea.php", {
+        method: "POST",
+        body: data,
+    });
+
+    const respuesta = await eliminar.json();
+
+    return respuesta;
+};
+
 ///////////////////////////////////////
 ////        Controlador
 const menuOpciones = document.querySelector(".opciones");
@@ -254,6 +268,12 @@ tareasEl.addEventListener("click", async function (e) {
             vista.renderTareas(tareasInicio);
         }
     } else if (accion == "eliminar") {
-        // eliminarTarea(tareaId)
+        await eliminarTarea(tareaId);
+
+        const tareasInicio = await obtenerTareas("todos");
+
+        vista.seleccionarOpcion(document.querySelector(".opcion--todos"));
+        vista.renderTitulo("Todos");
+        vista.renderTareas(tareasInicio);
     }
 });
