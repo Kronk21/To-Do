@@ -1,0 +1,19 @@
+CREATE DATABASE to_do;
+
+CREATE TABLE tareas (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    texto VARCHAR(200) NOT NULL,
+    fecha DATE NOT NULL,
+    status VARCHAR(100) DEFAULT "pendiente"
+);
+
+CREATE TABLE usuarios (
+    id VARCHAR(50) PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE tareas_usuarios (
+    id_tarea INT NOT NULL,
+    id_usuario VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_tarea) REFERENCES tareas (id),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
+);
