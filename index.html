@@ -53,7 +53,10 @@
                     <li class="opcion txt--md" data-opcion="semana">
                         Esta semana
                     </li>
-                    <li class="opcion txt--md" data-opcion="importantes">
+                    <li
+                        class="opcion txt--md opcion--importantes"
+                        data-opcion="importantes"
+                    >
                         Importantes
                     </li>
                     <li class="opcion txt--md" data-opcion="pasados">
@@ -81,14 +84,11 @@
                         </p>
 
                         <div class="acciones">
-                            <button class="favorito">
+                            <button class="favorito" data-accion="importante">
                                 <!-- <i class="fa-solid fa-star"></i> -->
                                 <i class="fa-regular fa-star"></i>
                             </button>
-                            <button class="editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="eliminar">
+                            <button class="eliminar" data-accion="eliminar">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>

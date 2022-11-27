@@ -24,7 +24,7 @@ class View {
                         </p>
 
                         <div class="acciones">
-                            <button class="favorito">
+                            <button class="favorito" data-accion="importante">
                                 <!-- <i class="fa-solid fa-star"></i> -->
                                 <i class="fa-${
                                     t.status == "pendiente"
@@ -32,10 +32,7 @@ class View {
                                         : "solid"
                                 } fa-star"></i>
                             </button>
-                            <button class="editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="eliminar">
+                            <button class="eliminar" data-accion="eliminar">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -123,6 +120,21 @@ const crearTarea = async function (data) {
     return respuesta;
 };
 
+const editarTarea = async function (tareaId, accion) {
+    const data = new FormData();
+    data.append("id", tareaId);
+    data.append("accion", accion);
+
+    const editar = await fetch("php/edit_importante.php", {
+        method: "POST",
+        body: data,
+    });
+
+    const respuesta = await editar.json();
+
+    return respuesta;
+};
+
 ///////////////////////////////////////
 ////        Controlador
 const menuOpciones = document.querySelector(".opciones");
@@ -134,6 +146,8 @@ const modalEl = document.querySelector(".modal");
 const btnCrear = document.querySelector(".btn-crear");
 const btnCerrar = document.querySelector(".modal__btn--cerrar");
 const formularioCrearEl = document.querySelector(".formulario-nuevo");
+
+const tareasEl = document.querySelector(".pendientes");
 
 window.addEventListener("load", async function (e) {
     await obtenerUsuario();
@@ -206,4 +220,40 @@ formularioCrearEl.addEventListener("submit", async function (e) {
 
     overlayEl.classList.toggle("hidden");
     modalEl.classList.toggle("hidden");
+});
+
+// Importante
+tareasEl.addEventListener("click", async function (e) {
+    const boton = e.target.closest("button");
+
+    if (!boton) return 0;
+
+    const tareaId = e.target.closest(".pendiente").dataset.tarea;
+    const accion = boton.dataset.accion;
+
+    if (accion == "importante") {
+        const icon = e.target.closest("i");
+
+        if (icon.classList.contains("fa-regular")) {
+            await editarTarea(tareaId, "marcarImportante");
+
+            const tareasInicio = await obtenerTareas("importantes");
+
+            vista.seleccionarOpcion(
+                document.querySelector(".opcion--importantes")
+            );
+            vista.renderTitulo("Importantes");
+            vista.renderTareas(tareasInicio);
+        } else {
+            await editarTarea(tareaId, "quitarImportante");
+
+            const tareasInicio = await obtenerTareas("todos");
+
+            vista.seleccionarOpcion(document.querySelector(".opcion--todos"));
+            vista.renderTitulo("Todos");
+            vista.renderTareas(tareasInicio);
+        }
+    } else if (accion == "eliminar") {
+        // eliminarTarea(tareaId)
+    }
 });
