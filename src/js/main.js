@@ -84,6 +84,7 @@ const vista = new View();
 ///////////////////////////////////////
 ////        Modelo
 let idUsuario = "";
+let filtro = "todos";
 
 const obtenerUsuario = async function () {
     const respuesta = await fetch("php/get_usuario.php");
@@ -109,10 +110,30 @@ const obtenerTareas = async function (filtro = "todos", busqueda = false) {
     return tareas;
 };
 
+const crearTarea = async function (data) {
+    data.append("usuario", idUsuario);
+
+    const crear = await fetch("php/crear_tarea.php", {
+        method: "POST",
+        body: data,
+    });
+
+    const respuesta = await crear.json();
+
+    return respuesta;
+};
+
 ///////////////////////////////////////
 ////        Controlador
 const menuOpciones = document.querySelector(".opciones");
+
 const barraBusqueda = document.querySelector(".barra-busqueda");
+
+const overlayEl = document.querySelector(".overlay");
+const modalEl = document.querySelector(".modal");
+const btnCrear = document.querySelector(".btn-crear");
+const btnCerrar = document.querySelector(".modal__btn--cerrar");
+const formularioCrearEl = document.querySelector(".formulario-nuevo");
 
 window.addEventListener("load", async function (e) {
     await obtenerUsuario();
@@ -123,12 +144,14 @@ window.addEventListener("load", async function (e) {
     vista.renderTareas(tareasInicio);
 });
 
+// Menu de opciones
 menuOpciones.addEventListener("click", async function (e) {
     const opcion = e.target.closest(".opcion");
 
     if (!opcion) return;
 
     const opcionData = opcion.dataset.opcion;
+    filtro = opcionData;
 
     vista.seleccionarOpcion(opcion);
     vista.renderTitulo(
@@ -149,6 +172,7 @@ menuOpciones.addEventListener("click", async function (e) {
     vista.renderTareas(tareas);
 });
 
+// Barra de busqueda
 barraBusqueda.addEventListener("input", async function (e) {
     if (barraBusqueda.value == "") return 0;
 
@@ -157,4 +181,29 @@ barraBusqueda.addEventListener("input", async function (e) {
 
     const tareas = await obtenerTareas("busqueda", barraBusqueda.value);
     vista.renderTareas(tareas);
+});
+
+// Modal
+[btnCrear, overlayEl, btnCerrar].forEach((el) =>
+    el.addEventListener("click", function (e) {
+        overlayEl.classList.toggle("hidden");
+        modalEl.classList.toggle("hidden");
+    })
+);
+
+formularioCrearEl.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const data = new FormData(formularioCrearEl);
+
+    await crearTarea(data);
+
+    const tareas = await obtenerTareas();
+
+    vista.seleccionarOpcion(document.querySelector(".opcion--todos"));
+    vista.renderTitulo("Todos");
+    vista.renderTareas(tareas);
+
+    overlayEl.classList.toggle("hidden");
+    modalEl.classList.toggle("hidden");
 });
